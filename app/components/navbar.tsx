@@ -18,7 +18,7 @@ const Navbar = () => {
       </nav>
 
       <div>
-        <Button className="bg-white text-black rounded-full px-6 font-inter h-[56px] w-[190px] text-[16px] font-medium">
+        <Button className="bg-white hover:bg-white/90 cursor-pointer text-black rounded-full px-6 font-inter h-[56px] w-[190px] text-[16px] font-medium">
           Launch App
         </Button>
       </div>

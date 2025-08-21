@@ -3,16 +3,16 @@ import React from "react";
 
 const audiences = [
   { icon: "/icons/bank.svg", label: "Banks" },
-  { icon: "/icons/bank.svg", label: "Hard Money Lenders" },
-  { icon: "/icons/bank.svg", label: "Property Owners" },
-  { icon: "/icons/bank.svg", label: "Microfinance Institutions" },
-  { icon: "/icons/bank.svg", label: "DeFi Investors" },
-  { icon: "/icons/bank.svg", label: "Liquidity Providers" },
+  { icon: "/icons/money.svg", label: "Hard Money Lenders" },
+  { icon: "/icons/properties.svg", label: "Property Owners" },
+  { icon: "/icons/microfinance.svg", label: "Microfinance Institutions" },
+  { icon: "/icons/defi.svg", label: "DeFi Investors" },
+  { icon: "/icons/liquidity.svg", label: "Liquidity Providers" },
 ];
 
 const About = () => {
   return (
-    <div className=" pt-[82px] space-y-20 font-inter">
+    <div className=" p-[64px] space-y-20 font-inter">
       <div className=" flex justify-center flex-col space-y-4">
         <h2 className=" text-[32px] font-bold font-inter text-center">
           What is <span className=" text-[#5F5F60]">lanstellar ?</span>
@@ -25,7 +25,7 @@ const About = () => {
           loans to be issued in stablecoins within minutes.
         </p>
       </div>
-      <div className="">
+      <div className=" space-y-10 relative ">
         <div className=" flex flex-col justify-center">
           <span className=" text-[#969798] text-[12px] text-center ">
             WHO IS LANSTELLAR FOR?
@@ -34,9 +34,11 @@ const About = () => {
             Our Target Audience{" "}
           </h2>
         </div>
-        <div className="flex justify-center gap-12 flex-wrap">
+        <div className=" w-[94%] mx-auto absolute  border mt-10 border-dashed h-0.5 "></div>
+
+        <div className="flex justify-between gap-0 z-50">
           {audiences.map((item, index) => (
-            <div key={index} className=" flex">
+            <div key={index} className=" flex gap-0">
               <div className="flex flex-col items-center text-center justify-center">
                 <div className=" w-16 h-16 flex items-center justify-center rounded-lg mb-3">
                   <Image
@@ -44,14 +46,13 @@ const About = () => {
                     alt={item.label}
                     width={32}
                     height={32}
-                    className="w-16 h-16"
+                    className="w-16 h-16 z-50"
                   />
                 </div>
-                <p className="text-gray-700 text-sm md:text-base">
+                <p className="text-[#555555] text-sm md:text-base">
                   {item.label}
                 </p>
               </div>
-              <div className=" w-20 border-t border-dashed h-0.5 "></div>
             </div>
           ))}
         </div>

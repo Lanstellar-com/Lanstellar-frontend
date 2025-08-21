@@ -4,7 +4,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <section className="relative h-fit bg-[#F5F5F5] bg-[url('/heropatern.svg')] bg-cover bg-center text-white flex flex-col items-center justify-center ">
+    <section className="relative h-screen bg-[#F5F5F5] bg-[url('/heropatern.svg')] bg-cover bg-center text-white flex flex-col items-center justify-center ">
       <Image
         src="/heronoise.png"
         alt="hero"
@@ -38,7 +38,7 @@ const Footer = () => {
           className=" object-cover"
         />
       </div>
-      <div className="relative z-20 w-full ">
+      <div className="absolute bottom-0 z-20 w-full ">
         <div className="flex items-center justify-between px-[100px] py-6">
           <div className="flex items-center">
             <Image src="/logo2.svg" alt="logo" width={120} height={40} />

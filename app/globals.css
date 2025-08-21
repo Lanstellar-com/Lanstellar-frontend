@@ -124,3 +124,8 @@
     @apply bg-background text-foreground font-inter;
   }
 }
+.text-stroke {
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #5f5f60;
+  color: transparent;
+}
