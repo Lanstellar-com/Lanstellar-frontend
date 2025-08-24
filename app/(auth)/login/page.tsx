@@ -31,7 +31,7 @@ const Page = () => {
               <Input
                 type="email"
                 placeholder="Enter your Email"
-                className="bg-[#F5F5F5] border border-[#F1F1F1] rounded-[10px] text-[#CBCBCB] placeholder:text-[#CBCBCB] shadow-none p-3 h-12 outline-none transition-colors"
+                className="bg-[#F5F5F5] border border-[#F1F1F1] focus:outline-none rounded-[10px] text-[#CBCBCB] placeholder:text-[#CBCBCB] shadow-none p-3 h-12 outline-none transition-colors"
               />
             </div>
             <div className="flex flex-col gap-1">
