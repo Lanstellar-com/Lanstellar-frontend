@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const Navbar = () => {
@@ -18,9 +19,11 @@ const Navbar = () => {
       </nav>
 
       <div>
-        <Button className="bg-white hover:bg-white/90 cursor-pointer text-black rounded-full px-6 font-inter h-[56px] w-[190px] text-[16px] font-medium">
-          Launch App
-        </Button>
+        <Link href={"/user-selection"}>
+          <Button className="bg-white hover:bg-white/90 cursor-pointer text-black rounded-full px-6 font-inter h-[56px] w-[190px] text-[16px] font-medium">
+            Launch App
+          </Button>
+        </Link>
       </div>
     </div>
   );

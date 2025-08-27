@@ -106,16 +106,17 @@ const Page = () => {
                   Go Back
                 </Button>
               </Link>
-
-              <Button
-                onClick={handleContinue}
-                disabled={!selected}
-                className={`bg-gradient-to-br from-[#439EFF] to-[#5B1E9F] text-white text-[13.78px] py-2 px-[20px] rounded-md font-medium hover:opacity-90 transition-opacity mt-2 cursor-pointer ${
-                  !selected ? "opacity-50 cursor-not-allowed" : ""
-                }`}
-              >
-                Continue
-              </Button>
+              <Link href={"/informations"}>
+                <Button
+                  onClick={handleContinue}
+                  disabled={!selected}
+                  className={`bg-gradient-to-br from-[#439EFF] to-[#5B1E9F] text-white text-[13.78px] py-2 px-[20px] rounded-md font-medium hover:opacity-90 transition-opacity mt-2 cursor-pointer ${
+                    !selected ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                >
+                  Continue
+                </Button>
+              </Link>
             </div>
           </form>
         </div>
