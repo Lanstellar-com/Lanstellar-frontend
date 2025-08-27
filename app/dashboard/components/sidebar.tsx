@@ -1,15 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import {
-  Settings,
-  Calendar,
-  ChevronLeft,
-  ChevronRight,
-  LogOut,
-  Building,
-  LayoutDashboard,
-  CircleAlert,
-} from "lucide-react";
+import { ChevronRight, CircleAlert } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -120,7 +111,6 @@ const Sidebar = () => {
           />
           {!isCollapsed && (
             <div className="flex-1 min-w-0">
-              {" "}
               <span className="ml-3 text-[12.06px] text-[#49576D] font-medium leading-[12.06px]">
                 Help
               </span>

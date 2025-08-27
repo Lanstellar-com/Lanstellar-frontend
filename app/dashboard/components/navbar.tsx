@@ -35,31 +35,37 @@ const Navbar = () => {
               </h2>
             </div>
           </div>
-          <div className=" ">
+          <div className="cursor-pointer">
             <DropdownMenu>
-              <DropdownMenuTrigger className=" outline-none border-none bg-transparent flex items-center justify-center">
-                <ChevronDownIcon className=" text-[#8C94A6]" size={15} />
+              <DropdownMenuTrigger className="outline-none cursor-pointer border-none bg-transparent flex items-center justify-center">
+                <ChevronDownIcon className="text-[#8C94A6]" size={18} />
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem>
-                  <Link href="/dashboard/account">
-                    <h2 className=" text-[13px] text-[#49576D] hover:bg-[#F4F3F7] px-5 py-2 cursor-pointer">
-                      Account
-                    </h2>
+
+              <DropdownMenuContent className="min-w-[180px] p-2 shadow-lg border border-[#E4E3EC] rounded-lg bg-white">
+                <DropdownMenuItem asChild>
+                  <Link
+                    href="/dashboard/account"
+                    className="flex w-full items-center px-3 py-2 text-[14px] text-[#49576D] rounded-md hover:bg-[#F4F3F7]  cursor-pointer transition-colors"
+                  >
+                    Account
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link href="/dashboard/settings">
-                    <h2 className=" text-[13px] text-[#49576D] hover:bg-[#F4F3F7] px-5 py-2 cursor-pointer">
-                      Settings
-                    </h2>
+
+                <DropdownMenuItem asChild>
+                  <Link
+                    href="/dashboard/settings"
+                    className="flex w-full items-center px-3 py-2 text-[14px] text-[#49576D] rounded-md hover:bg-[#F4F3F7]  cursor-pointer transition-colors"
+                  >
+                    Settings
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link href="/login">
-                    <h2 className=" text-[13px] text-[#49576D] hover:bg-[#F4F3F7] px-5 py-2 cursor-pointer">
-                      Logout
-                    </h2>
+
+                <DropdownMenuItem asChild>
+                  <Link
+                    href="/login"
+                    className="flex w-full items-center px-3 py-2 text-[14px] text-red-600 rounded-md hover:bg-red-50  cursor-pointer transition-colors"
+                  >
+                    Logout
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
