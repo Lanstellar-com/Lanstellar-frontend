@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { CircleAlert, RefreshCw } from "lucide-react"; // Removed Calendar since unused
 import Image from "next/image";
 import React from "react";
+import Chart from "./chart";
 
 const AssetsChart = () => {
   return (
@@ -23,13 +24,13 @@ const AssetsChart = () => {
         </span>
       </CardHeader>
 
-      <CardContent className="flex-1">
+      <CardContent className="flex-1 p-0">
         <div className="flex h-full">
           {/* Left side */}
-          <div className="flex-1 flex flex-col">
+          <div className="flex-1 flex flex-col ">
             <div className="flex items-center justify-between ">
               <div className="flex items-center gap-3">
-                <div className="h-[40px] w-[48px] bg-gradient-to-r from-[#1F90FF] to-[#504CF6] rounded-full flex justify-center items-center">
+                <div className="h-[40px] w-[48px] bg-gradient-to-r from-[#1F90FF] to-[#504CF6] shadow-[0px_1px_2px_rgba(30,144,255,0.65)] rounded-full flex justify-center items-center">
                   <Image
                     src={"/icons/spark.svg"}
                     alt="spark"
@@ -47,26 +48,20 @@ const AssetsChart = () => {
                 variant={"outline"}
                 className="border shadow-none border-[#E4E3EC] h-[34.78px] w-[138.13px] rounded-[3.45px] text-[#1A1A21] text-[13.78px] gap-2 flex items-center hover:text-[#1A1A21]/90 font-medium transition-colors"
               >
-                <RefreshCw className="w-[14px] h-[14px]" />
+                <Image
+                  src={"/sync.svg"}
+                  alt="spark"
+                  width={20.67}
+                  height={20.67}
+                  className="w-[13.35px] h-[13.22px]"
+                />{" "}
                 Refresh Data
               </Button>
             </div>
 
-            <div>
-              <div
-                role="status"
-                className="w-full rounded-sm h-[230px] animate-pulse md:p-6"
-              >
-                <div className="flex items-baseline  h-[200px]">
-                  <div className="w-full bg-gray-200 rounded-t-lg h-[255px]" />
-                  <div className="w-full h-[130px] ms-6 bg-gray-200 rounded-t-lg" />
-                  <div className="w-full bg-gray-200 rounded-t-lg h-[255px] ms-6" />
-                  <div className="w-full h-[140px] ms-6 bg-gray-200 rounded-t-lg" />
-                  <div className="w-full bg-gray-200 rounded-t-lg h-[100px] ms-6" />
-                  <div className="w-full bg-gray-200 rounded-t-lg h-[255px] ms-6" />
-                  <div className="w-full bg-gray-200 rounded-t-lg h-[160px] ms-6" />
-                </div>
-                <span className="sr-only">Loading...</span>
+            <div className="">
+              <div className="w-full h-[230px]">
+                <Chart />
               </div>
             </div>
           </div>
