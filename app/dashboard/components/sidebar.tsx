@@ -64,7 +64,7 @@ const Sidebar = () => {
 
             return (
               <li key={item.id}>
-                <Link href={`/studios-owners/${item.id}`}>
+                <Link href={`/dashboard/${item.id}`}>
                   <button
                     onClick={() => handleItemClick(item.id)}
                     className={` cursor-pointer whitespace-nowrap flex items-center px-3 h-[34px] w-[231px] rounded-[3.45px] transition-colors ${
