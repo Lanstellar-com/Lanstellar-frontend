@@ -7,7 +7,7 @@ import Chart from "./chart";
 
 const AssetsChart = () => {
   return (
-    <Card className="w-full h-[430.67px] border-[0.86px] shadow-none border-[#E4E3EC] rounded-[5.17px] flex flex-col px-[24.98px]">
+    <Card className="w-full md:h-[430.67px] h-fit border-[0.86px] shadow-none border-[#E4E3EC] rounded-[5.17px] flex flex-col px-[24.98px]">
       <CardHeader className="h-[40.12px] border-b border-[#E4E3EC] flex flex-row justify-between items-center">
         <span className="text-[13.78px] text-[#1A1A21] font-medium">
           Total Tokenized Assets
@@ -24,9 +24,8 @@ const AssetsChart = () => {
         </span>
       </CardHeader>
 
-      <CardContent className="flex-1 p-0">
-        <div className="flex h-full">
-          {/* Left side */}
+      <CardContent className="flex-1 p-0 ">
+        <div className="flex md:h-full   flex-col md:flex-row">
           <div className="flex-1 flex flex-col ">
             <div className="flex items-center justify-between ">
               <div className="flex items-center gap-3">
@@ -66,8 +65,8 @@ const AssetsChart = () => {
             </div>
           </div>
 
-          <div className="w-[278px] h-[327.3px] bg-[#F7F7F8] rounded-[3.45px] ml-6 flex flex-col justify-center  gap-2 p-6">
-            <div className="text-[13.78px] h-[81px] w-[223px] text-[#1A1A21] font-medium mt-2 bg-white p-2 rounded-sm">
+          <div className="md:w-[278px] w-11/12 h-[327.3px] bg-[#F7F7F8] rounded-[3.45px] md:ml-6 mt-15 md:mt-0 mx-auto flex flex-col justify-center  gap-2 p-6">
+            <div className="text-[13.78px] h-[81px] md:w-[223px] w-full text-[#1A1A21] font-medium mt-2 bg-white p-2 rounded-sm">
               <div className="text-[12.06px] font-medium text-[#8C94A6] mb-1">
                 Total Verified Asset
               </div>
@@ -76,14 +75,14 @@ const AssetsChart = () => {
               </div>
             </div>
 
-            <div className="text-[13.78px] h-[81px] w-[223px] text-[#1A1A21] font-medium mt-2 bg-white p-2 rounded-sm">
+            <div className="text-[13.78px] h-[81px] md:w-[223px] w-full text-[#1A1A21] font-medium mt-2 bg-white p-2 rounded-sm">
               <div className="text-[12.06px] font-medium text-[#8C94A6] mb-1">
                 Pending Verification
               </div>
               <div className="text-[20px] font-semibold text-[#1A1A21]">0</div>
             </div>
 
-            <div className="text-[13.78px] h-[81px] w-[223px] text-[#1A1A21] font-medium mt-2 bg-white p-2 rounded-sm">
+            <div className="text-[13.78px] h-[81px] md:w-[223px] w-full text-[#1A1A21] font-medium mt-2 bg-white p-2 rounded-sm">
               <div className="text-[12.06px] font-medium text-[#8C94A6] mb-1">
                 Failed Verification
               </div>

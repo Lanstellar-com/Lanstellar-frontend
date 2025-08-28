@@ -17,7 +17,8 @@ const transactions = [
     value: "$23,489",
     loanTaken: "$7,200",
     status: "Overdue",
-    date: "Jun 3, 2025 - Due Jun 10, 2026",
+    date: "Jun 3, 2025 ",
+    due: "- Due Jun 10, 2026",
   },
   {
     assetId: "ASD-10012",
@@ -25,7 +26,8 @@ const transactions = [
     value: "$60,000",
     loanTaken: "$30,000",
     status: "Repaid",
-    date: "Aug 13, 2025 - Due Mar 13, 2026",
+    date: "Aug 13, 2025 ",
+    due: "- Due Mar 13, 2026",
   },
   {
     assetId: "ASD-10013",
@@ -33,7 +35,8 @@ const transactions = [
     value: "$98,000",
     loanTaken: "$30,000",
     status: "Cancelled",
-    date: "Aug 21, 2025 - Due Aug 21, 2026",
+    date: "Aug 21, 2025 ",
+    due: "- Due Aug 21, 2026",
   },
 ];
 
@@ -61,9 +64,8 @@ const StatusBadge = ({ status }) => {
 
       default:
         return {
-          bg: "",
-          text: "",
-          border: "",
+          bg: "#F3F4F6",
+          text: "#374151",
           icon: null,
         };
     }
@@ -73,10 +75,11 @@ const StatusBadge = ({ status }) => {
 
   return (
     <div
-      className={`inline-flex items-center gap-2 px-3 py-1.5 ${styles.bg} ${styles.text}`}
+      className=" items-center  py-1.5 rounded-[4px] w-fit h-[21px]  flex gap-2 px-2 justify-center"
+      style={{ backgroundColor: styles.bg, color: styles.text }}
     >
       {styles.icon && <styles.icon className="w-3.5 h-3.5" />}
-      <span className="text-xs font-medium">{status}</span>
+      <span className="text-[13.78px] font-medium">{status}</span>
     </div>
   );
 };
@@ -92,7 +95,7 @@ const AssetsTransaction = () => {
         <CardContent className="text-[13.78px] flex flex-col font-medium w-full justify-center items-center text-[#8C94A6] px-0">
           <Table>
             <TableHeader className="bg-[#F8F8FB] text-[#49576D] border-b border-b-[#E5E5E5] font-medium text-[12.06px]">
-              <TableRow className="justify-around items-center">
+              <TableRow>
                 <TableHead className="font-medium">Asset ID</TableHead>
                 <TableHead className="font-medium">Asset Type</TableHead>
                 <TableHead className="font-medium">Value</TableHead>
@@ -105,9 +108,9 @@ const AssetsTransaction = () => {
               {transactions.map((transaction) => (
                 <TableRow
                   key={transaction.assetId}
-                  className="justify-around items-center hover:bg-gray-50 transition-colors"
+                  className="hover:bg-gray-50 transition-colors"
                 >
-                  <TableCell className="font-medium text-[#49576D] text-[13.78px]">
+                  <TableCell className=" text-[#1A1A1A] text-[13.78px]">
                     {transaction.assetId}
                   </TableCell>
                   <TableCell className="text-[#1A1A21] text-[13.78px]">
@@ -123,7 +126,10 @@ const AssetsTransaction = () => {
                     <StatusBadge status={transaction.status} />
                   </TableCell>
                   <TableCell className="text-[#1A1A21] text-[13.78px]">
-                    {transaction.date}
+                    {transaction.date} <br />
+                    <span className="text-[#49576D] flex flex-row items-center font-medium text-[12.06px]">
+                      {transaction.due}
+                    </span>
                   </TableCell>
                 </TableRow>
               ))}
