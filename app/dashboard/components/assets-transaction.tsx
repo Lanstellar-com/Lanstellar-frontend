@@ -8,7 +8,23 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CheckCircle, CircleMinus, Clock } from "lucide-react";
+import {
+  CheckCircle,
+  ChevronLeft,
+  ChevronRight,
+  CircleMinus,
+  Clock,
+} from "lucide-react";
+import Image from "next/image";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const transactions = [
   {
@@ -18,7 +34,7 @@ const transactions = [
     loanTaken: "$7,200",
     status: "Overdue",
     date: "Jun 3, 2025 ",
-    due: "- Due Jun 10, 2026",
+    due: "Due Jun 10, 2026",
   },
   {
     assetId: "ASD-10012",
@@ -27,7 +43,7 @@ const transactions = [
     loanTaken: "$30,000",
     status: "Repaid",
     date: "Aug 13, 2025 ",
-    due: "- Due Mar 13, 2026",
+    due: "Due Mar 13, 2026",
   },
   {
     assetId: "ASD-10013",
@@ -36,12 +52,18 @@ const transactions = [
     loanTaken: "$30,000",
     status: "Cancelled",
     date: "Aug 21, 2025 ",
-    due: "- Due Aug 21, 2026",
+    due: "Due Aug 21, 2026",
   },
 ];
 
-const StatusBadge = ({ status }) => {
-  const getStatusStyles = (status) => {
+const StatusBadge = ({ status }: { status: string }) => {
+  interface StatusStyles {
+    bg: string;
+    text: string;
+    icon: React.ComponentType<{ className?: string }> | null;
+  }
+
+  const getStatusStyles = (status: string): StatusStyles => {
     switch (status.toLowerCase()) {
       case "overdue":
         return {
@@ -88,8 +110,31 @@ const AssetsTransaction = () => {
   return (
     <div>
       <Card className="border-none shadow-none rounded-none pt-2">
-        <CardHeader className="text-[15.5px] px-0 text-black font-semibold">
-          Asset Transactions
+        <CardHeader className=" flex flex-row justify-between text-[15.5px] px-0 text-black font-semibold">
+          <span>Asset Transactions</span>
+          <div className="flex flex-row items-center gap-2">
+            <div className=" border-r border-r[#E4E3EC] pr-4">
+              <Image
+                src="/icons/export.svg"
+                width={24}
+                height={24}
+                alt="export"
+                className="cursor-pointer h-[41.34px] w-[41.34px] "
+              />
+            </div>
+
+            <div className=" w-[183.25px] h-[41.34px] bg-white flex flex-row justify-between items-center  gap-2">
+              <div className=" bg-[#F4F3F7] h-[41.34px] w-[41.34px] rounded-full  flex justify-center items-center cursor-pointer">
+                <ChevronLeft color="#8C94A6" size={16} />
+              </div>
+              <div className=" whitespace-nowrap text-[#49576D] text-[12.06px] ">
+                1-50 of 234
+              </div>
+              <div className=" bg-[#F4F3F7] h-[41.34px] w-[41.34px] rounded-full  flex justify-center items-center cursor-pointer">
+                <ChevronRight color="#8C94A6" size={16} />
+              </div>
+            </div>
+          </div>
         </CardHeader>
 
         <CardContent className="text-[13.78px] flex flex-col font-medium w-full justify-center items-center text-[#8C94A6] px-0">
@@ -108,7 +153,7 @@ const AssetsTransaction = () => {
               {transactions.map((transaction) => (
                 <TableRow
                   key={transaction.assetId}
-                  className="hover:bg-gray-50 transition-colors"
+                  className="hover:bg-[#F8F8FB] transition-colors"
                 >
                   <TableCell className=" text-[#1A1A1A] text-[13.78px]">
                     {transaction.assetId}
@@ -125,9 +170,15 @@ const AssetsTransaction = () => {
                   <TableCell className="text-[#1A1A21] text-[13.78px]">
                     <StatusBadge status={transaction.status} />
                   </TableCell>
-                  <TableCell className="text-[#1A1A21] text-[13.78px]">
-                    {transaction.date} <br />
+                  <TableCell className="text-[#1A1A21] text-[13.78px] gap-3 flex flex-col">
+                    <div className="">{transaction.date}</div>
                     <span className="text-[#49576D] flex flex-row items-center font-medium text-[12.06px]">
+                      <Image
+                        src={"/icons/arrow.svg"}
+                        width={24}
+                        height={24}
+                        alt="arrow"
+                      />
                       {transaction.due}
                     </span>
                   </TableCell>
