@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
-import { FileText } from "lucide-react";
+import { FileText, Link } from "lucide-react";
 import Image from "next/image";
 
 export default function LanstellarForm() {
@@ -274,10 +274,11 @@ export default function LanstellarForm() {
                   }
                 />
               </div>
-
-              <Button className="w-full bg-gradient-to-br from-[#439EFF] to-[#5B1E9F] hover:from-[#439EFF]/90 hover:to-[#5B1E9F]/90  text-white">
-                Continue
-              </Button>
+              <Link href="/dashboard">
+                <Button className="w-full bg-gradient-to-br from-[#439EFF] to-[#5B1E9F] hover:from-[#439EFF]/90 hover:to-[#5B1E9F]/90  text-white">
+                  Continue
+                </Button>
+              </Link>
             </div>
           )}
         </div>
