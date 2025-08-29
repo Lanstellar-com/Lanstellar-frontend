@@ -7,7 +7,13 @@ const Navbar = () => {
   return (
     <div className="flex items-center justify-between h-[87px] md:px-[100px] px-10 fixed top-0 left-0 right-0 bg-[#151515]/3 backdrop-blur-[2px] z-50">
       <div className="flex items-center">
-        <Image src="/logo.svg" alt="logo" width={120} height={40} />
+        <Image
+          src="/logo.svg"
+          alt="logo"
+          width={170}
+          height={60}
+          className="w-32 h-10 md:w-40 md:h-12 lg:w-48 lg:h-14 xl:w-56 xl:h-16 transition-all duration-300 ease-in-out hover:scale-105"
+        />
       </div>
 
       <nav className=" md:flex hidden">
@@ -18,12 +24,15 @@ const Navbar = () => {
         </ul>
       </nav>
 
-      <div>
+      <div className="gap-5">
         <Link href={"/user-selection"}>
-          <Button className="bg-white hover:bg-white/90 cursor-pointer text-black rounded-full px-6 font-inter h-[56px] w-[190px] text-[16px] font-medium">
+          <Button className="bg-white mr-5 hover:bg-white/90 cursor-pointer text-black rounded-full px-6 font-inter h-[56px] w-[190px] text-[16px] font-medium">
             Launch App
           </Button>
         </Link>
+        <Button className="bg-purple-600 text-white hover:bg-white/90 cursor-pointer  md:px-6 font-inter md:py-6 md:text-[16px] rounded-full px-6  h-[56px] w-[190px] text-[16px] font-medium">
+          Request a Demo
+        </Button>
       </div>
     </div>
   );
