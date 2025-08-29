@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
-import { Upload, FileText } from "lucide-react";
+import { FileText } from "lucide-react";
 import Image from "next/image";
 
 export default function LanstellarForm() {
@@ -47,7 +47,6 @@ export default function LanstellarForm() {
   return (
     <div className=" bg-white font-inter justify-center relative items-center flex flex-col ">
       <div className="w-full max-w-md">
-        {/* Logo */}
         <div className="self-start ml-[20px] z-50 mt-[10px] top-0 left-0 absolute">
           <Image src={"/logo3.svg"} height={48} width={174} alt="logo" />
         </div>
@@ -241,7 +240,6 @@ export default function LanstellarForm() {
             </div>
           )}
 
-          {/* Step 2: Upload Documents */}
           {currentStep === 2 && (
             <div className="space-y-6">
               <div>
