@@ -14,8 +14,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
-import { FileText, Link } from "lucide-react";
+import { FileText } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function LanstellarForm() {
   const [currentStep, setCurrentStep] = useState(1);
