@@ -1,7 +1,7 @@
 import React from "react";
 
 const Page = () => {
-  return <div>Loans Page</div>;
+  return <div className="p-6">Loans Page</div>;
 };
 
 export default Page;

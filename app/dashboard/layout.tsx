@@ -18,7 +18,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
           <Navbar />
         </header>
 
-        <main className="flex-1 overflow-y-auto bg-white p-6">
+        <main className="flex-1 overflow-y-auto bg-white ">
           <div className="max-w-7xl mx-auto">{children}</div>
         </main>
       </div>

@@ -4,11 +4,13 @@ import { Button } from "@/components/ui/button";
 import { CircleAlert, Plus } from "lucide-react";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import AddAssetsDialog from "./components/add-assets-dialog";
+import AssetList from "./components/asset-list";
 
 const Page = () => {
   return (
     <div className="">
-      <div className="flex flex-col items-center justify-center gap-4 h-screen">
+      {/*
+      <div className="flex p-6 flex-col items-center justify-center gap-4 h-screen">
         <Image
           src="/empty.svg"
           alt="Logo"
@@ -43,7 +45,8 @@ const Page = () => {
             </h2>
           </div>
         </div>
-      </div>
+      </div>*/}
+      <AssetList />
     </div>
   );
 };
