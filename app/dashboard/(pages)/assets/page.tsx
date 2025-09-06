@@ -1,10 +1,11 @@
 import React from "react";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { CircleAlert, Plus } from "lucide-react";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import AddAssetsDialog from "./components/add-assets-dialog";
-import AssetList from "./components/asset-list";
+import AssetHeader from "./components/asset-header";
+import AssetsList from "./components/assets-list";
+//import Image from "next/image";
+//import { Button } from "@/components/ui/button";
+//import { CircleAlert, Plus } from "lucide-react";
+//import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+//import AddAssetsDialog from "./components/add-assets-dialog";
 
 const Page = () => {
   return (
@@ -46,7 +47,10 @@ const Page = () => {
           </div>
         </div>
       </div>*/}
-      <AssetList />
+      <AssetHeader />
+      <div className="">
+        <AssetsList />
+      </div>
     </div>
   );
 };

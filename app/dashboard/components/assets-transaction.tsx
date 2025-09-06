@@ -16,15 +16,6 @@ import {
   Clock,
 } from "lucide-react";
 import Image from "next/image";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 
 const transactions = [
   {
