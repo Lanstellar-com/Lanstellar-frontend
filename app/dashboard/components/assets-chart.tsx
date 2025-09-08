@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { CircleAlert, RefreshCw } from "lucide-react"; // Removed Calendar since unused
+import { CircleAlert } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import Chart from "./chart";
