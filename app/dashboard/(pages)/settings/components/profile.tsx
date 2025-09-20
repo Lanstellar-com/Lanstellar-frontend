@@ -1,8 +1,6 @@
 "use client";
 
-import type React from "react";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,21 +19,35 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Upload } from "lucide-react";
 import Image from "next/image";
+import { getCurrentUser } from "@/lib/auth";
+import api from "@/lib/api";
+import { toast } from "sonner";
+
+interface UserForm {
+  fullName: string;
+  email: string;
+  country: string;
+  address: string;
+  contact: string;
+  profilePicture: string;
+}
 
 export function Profile() {
-  const [formData, setFormData] = useState({
-    name: "Unity Finance",
-    email: "example@work.com",
-    country: "Nigeria",
-    address: "1A Banana Island, Iie ile lei, Lagos State",
-    contact: "+23456789023",
+  const [formData, setFormData] = useState<UserForm>({
+    fullName: "",
+    email: "",
+    country: "",
+    address: "",
+    contact: "",
+    profilePicture: "",
   });
 
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null); // ✅ keep actual file
+  const [loading, setLoading] = useState(false);
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field: keyof UserForm, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -43,21 +55,68 @@ export function Profile() {
     const file = event.target.files?.[0];
     if (file) {
       if (!["image/png", "image/jpeg"].includes(file.type)) {
-        alert("We only support PNGs and JPEGs");
+        toast.error("We only support PNGs and JPEGs");
         return;
       }
       if (file.size > 10 * 1024 * 1024) {
-        alert("File size must be under 10MB");
+        toast.error("File size must be under 10MB");
         return;
       }
 
-      const url = URL.createObjectURL(file);
-      setAvatarUrl(url);
+      setFile(file); // ✅ save actual file
+      setAvatarUrl(URL.createObjectURL(file));
     }
   };
 
   const removeAvatar = () => {
     setAvatarUrl(null);
+    setFile(null);
+    setFormData((prev) => ({ ...prev, profilePicture: "" }));
+  };
+
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const data = await getCurrentUser();
+        setFormData(data.data.user);
+        setAvatarUrl(data.data.user?.profilePicture || null);
+      } catch (err) {
+        console.error("Failed to fetch user:", err);
+      }
+    }
+    fetchUser();
+  }, []);
+
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+
+      const form = new FormData();
+      form.append("fullName", formData.fullName);
+      form.append("email", formData.email);
+      form.append("country", formData.country);
+      form.append("address", formData.address);
+      form.append("contact", formData.contact);
+
+      if (file) {
+        form.append("profilePicture", file); // ✅ send actual file
+      }
+
+      const res = await api.put("/auth/update-user", form, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      toast.success("Profile updated successfully!");
+      setFormData(res.data.user);
+      if (res.data.user.profilePicture) {
+        setAvatarUrl(res.data.user.profilePicture);
+      }
+    } catch (err) {
+      console.error("Failed to update user:", err);
+      toast.error("Failed to update profile");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -69,23 +128,26 @@ export function Profile() {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        <div className="flex flex-row items-center space-y-4">
+        {/* Avatar */}
+        <div className="flex flex-row items-center">
           <Avatar className="h-[80px] w-[80px]">
             <AvatarImage src={avatarUrl || undefined} />
-            <AvatarFallback className="bg-[#F4F3F7]"></AvatarFallback>
+            <AvatarFallback className="bg-[#F4F3F7]">
+              {formData.fullName?.[0] || "A"}
+            </AvatarFallback>
           </Avatar>
-          <div className=" flex flex-col space-y-2 ml-4">
+          <div className="flex flex-col space-y-2 ml-4">
             <div className="flex items-center space-x-4">
               <Label htmlFor="avatar-upload" className="cursor-pointer">
                 <Button
                   variant="outline"
                   size="sm"
                   asChild
-                  className=" h-[40px] w-[113px] border-[#F1F1F1] bg-white border-[1px] shadow-none text-[#8C94A6] text-[12px] rounded-[10px] cursor-pointer"
+                  className="h-[40px] w-[113px] border-[#F1F1F1] bg-white border-[1px] shadow-none text-[#8C94A6] text-[12px] rounded-[10px]"
                 >
                   <span>
                     <Image
-                      src={"/icons/export.png"}
+                      src="/icons/export.png"
                       alt=""
                       width={20}
                       height={20}
@@ -102,69 +164,50 @@ export function Profile() {
                 />
               </Label>
 
-              {avatarUrl && (
+              {(avatarUrl || formData.profilePicture) && (
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={removeAvatar}
-                  className=" h-[40px] w-[113px] border-[#F1F1F1] cursor-pointer bg-white border-[1px] text-[#8C94A6] text-[12px] rounded-[10px]"
+                  className="h-[40px] w-[113px] border-[#F1F1F1] bg-white border-[1px] text-[#8C94A6] text-[12px] rounded-[10px]"
                 >
                   Remove
                 </Button>
               )}
             </div>
-
-            <p className="text-[12px] text-[#8C94A6] text-center">
+            <p className="text-[12px] text-[#8C94A6]">
               We only support PNGs and JPEGs under 10MB
             </p>
           </div>
         </div>
 
+        {/* Form fields */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-2">
-            <Label
-              htmlFor="name"
-              className="text-[13.78px] font-medium text-[#8C94A6] leading-[20.67px]"
-            >
-              Name
-            </Label>
+          <div className=" space-y-2">
+            <Label htmlFor="name">Name</Label>
             <Input
               id="name"
-              value={formData.name}
-              onChange={(e) => handleInputChange("name", e.target.value)}
-              className="w-full border-[1px] border-[#F1F1F1] rounded-[10px] shadow-none"
+              value={formData.fullName}
+              onChange={(e) => handleInputChange("fullName", e.target.value)}
             />
           </div>
-
-          <div className="space-y-2">
-            <Label
-              htmlFor="email"
-              className="text-[13.78px] font-medium text-[#8C94A6] leading-[20.67px]"
-            >
-              Email
-            </Label>
+          <div className=" space-y-2">
+            <Label htmlFor="email">Email</Label>
             <Input
               id="email"
               type="email"
               value={formData.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
-              className="w-full border-[1px] border-[#F1F1F1] rounded-[10px] shadow-none"
             />
           </div>
-
-          <div className="space-y-2">
-            <Label
-              htmlFor="country"
-              className="text-[13.78px] font-medium text-[#8C94A6] leading-[20.67px] "
-            >
-              Country
-            </Label>
+          <div className=" space-y-2">
+            <Label htmlFor="country">Country</Label>
             <Select
               value={formData.country}
               onValueChange={(value) => handleInputChange("country", value)}
             >
-              <SelectTrigger className="w-full border-[1px] border-[#F1F1F1] rounded-[10px] shadow-none">
-                <SelectValue />
+              <SelectTrigger className=" w-full">
+                <SelectValue placeholder="Select country" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="Nigeria">Nigeria</SelectItem>
@@ -175,36 +218,29 @@ export function Profile() {
               </SelectContent>
             </Select>
           </div>
-
-          <div className="space-y-2">
-            <Label
-              htmlFor="address"
-              className="text-[13.78px] font-medium text-[#8C94A6] leading-[20.67px]"
-            >
-              Address
-            </Label>
+          <div className=" space-y-2">
+            <Label htmlFor="address">Address</Label>
             <Input
               id="address"
               value={formData.address}
               onChange={(e) => handleInputChange("address", e.target.value)}
-              className="w-full border-[1px] border-[#F1F1F1] rounded-[10px] shadow-none"
             />
           </div>
         </div>
 
-        <div className="space-y-2">
-          <Label
-            htmlFor="contact"
-            className="text-[13.78px] font-medium text-[#8C94A6] leading-[20.67px]"
-          >
-            Contact
-          </Label>
+        <div className=" space-y-2">
+          <Label htmlFor="contact">Contact</Label>
           <Input
             id="contact"
             value={formData.contact}
             onChange={(e) => handleInputChange("contact", e.target.value)}
-            className="w-1/2 border-[1px] border-[#F1F1F1] rounded-[10px] shadow-none"
+            className="w-1/2"
           />
+        </div>
+        <div className=" flex justify-end">
+          <Button onClick={handleSubmit} disabled={loading}>
+            {loading ? "Saving..." : "Save changes"}
+          </Button>
         </div>
       </CardContent>
     </Card>

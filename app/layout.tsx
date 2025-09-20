@@ -7,6 +7,7 @@ const inter = Inter({
   subsets: ["latin"],
 });
 import localFont from "next/font/local";
+import { Toaster } from "@/components/ui/sonner";
 
 const helvetica = localFont({
   src: [
@@ -34,6 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${helvetica.variable} antialiased`}>
+        <Toaster />
         {children}
       </body>
     </html>

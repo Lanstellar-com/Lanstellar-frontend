@@ -12,43 +12,51 @@ import { ChevronDownIcon } from "lucide-react";
 import Link from "next/link";
 import { getCurrentUser, logout } from "@/lib/auth";
 
+// ✅ Define the User type for type safety
+interface User {
+  fullName: string;
+  email: string;
+  profilePicture?: string;
+  walletAddress?: string;
+}
+
 const Navbar = () => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    getCurrentUser()
-      .then((data) => setUser(data.user))
-      .catch(() => {
-        // If no user, logout or redirect to login
-        logout();
-      });
+    async function fetchUser() {
+      try {
+        const data = await getCurrentUser();
+        console.log(data.data.user);
+        setUser(data.data.user);
+      } catch (err) {
+        console.error("Failed to fetch user:", err);
+      }
+    }
+
+    fetchUser();
   }, []);
 
   return (
     <div className="p-5 border-b border-b-[#E5E5E5] px-10 font-fredoka flex items-center justify-between">
-      {/* Left Side: Greeting */}
       <div>
         <h2 className="text-[25.84px] text-[#49576D]">
           Welcome{" "}
-          <span className="text-black">
-            {user?.fullName || user?.name || "Guest"} 👋,
-          </span>
+          <span className="text-black">{user?.fullName || "Guest"} 👋,</span>
         </h2>
       </div>
 
-      {/* Right Side: Avatar + Wallet + Dropdown */}
       <div className="flex items-center gap-2 justify-center w-[156px] h-[34.5px] ">
         <Link href="/dashboard/account">
           <Avatar>
-            <AvatarImage src={user?.profilePicture || "https://github.com/shadcn.png"} />
-            <AvatarFallback>
-              {user?.fullName?.[0] || user?.name?.[0] || "A"}
-            </AvatarFallback>
+            <AvatarImage
+              src={user?.profilePicture || "https://github.com/shadcn.png"}
+            />
+            <AvatarFallback>{user?.fullName?.[0] || "A"}</AvatarFallback>
           </Avatar>
         </Link>
 
         <div className="flex flex-row gap-1 items-center">
-          {/* Wallet Address (optional field) */}
           {user?.walletAddress && (
             <div className="bg-gradient-to-r from-[#468FF7] to-[#844CCB] p-[1px] flex justify-center items-center rounded-full">
               <div className="bg-white rounded-full h-[26px] w-[91px] flex justify-center items-center px-3 mx-auto">
