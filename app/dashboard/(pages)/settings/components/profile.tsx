@@ -99,7 +99,7 @@ export function Profile() {
       form.append("contact", formData.contact);
 
       if (file) {
-        form.append("profilePicture", file); // ✅ send actual file
+        form.append("profilePicture", file);
       }
 
       const res = await api.put("/auth/update-user", form, {

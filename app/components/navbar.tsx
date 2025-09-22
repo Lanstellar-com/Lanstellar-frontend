@@ -24,13 +24,13 @@ const Navbar = () => {
         </ul>
       </nav>
 
-      <div className="gap-5">
+      <div className="md:gap-5 gap-2 flex">
         <Link href={"/user-selection"}>
-          <Button className="bg-white mr-5 hover:bg-white/90 cursor-pointer text-black rounded-full px-6 font-inter h-[56px] w-[190px] text-[16px] font-medium">
+          <Button className="bg-white mr-2 hover:bg-white/90 cursor-pointer text-black rounded-full px-2 font-inter md:h-[56px] h-[40px]  md:w-[190px] w-[150px] md:text-[16px] text-[14px] font-medium">
             Launch App
           </Button>
         </Link>
-        <Button className="bg-purple-600 text-white hover:bg-white/90 cursor-pointer  md:px-6 font-inter md:py-6 md:text-[16px] rounded-full px-6  h-[56px] w-[190px] text-[16px] font-medium">
+        <Button className="bg-gradient-to-br from-[#439EFF] to-[#5B1E9F] text-white hover:bg-white/90 cursor-pointer  md:px-6 px-2 font-inter md:w-[190px] w-[150px] md:text-[16px] text-[14px] rounded-full  md:h-[56px] h-[40px]  font-medium">
           Request a Demo
         </Button>
       </div>

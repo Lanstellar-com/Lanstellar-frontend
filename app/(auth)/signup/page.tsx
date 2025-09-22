@@ -5,6 +5,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import api from "@/lib/api"; // axios instance
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -19,11 +20,14 @@ const RegisterPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleChange = (e: { target: { name: any; value: any; }; }) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value } as typeof prev));
   };
 
-  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
 
@@ -40,16 +44,17 @@ const RegisterPage = () => {
         userType: form.userType,
       });
 
-
       const { token, user } = res.data;
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
 
       router.push("/dashboard");
-    } catch (err) {
+    } catch (err: unknown) {
       console.error("Registration failed:", err);
-      if (err && typeof err === "object" && "response" in err && err.response && typeof err.response === "object" && "data" in err.response && err.response.data && typeof err.response.data === "object" && "message" in err.response.data) {
-        setError((err.response as any).data.message || "Something went wrong");
+      if (axios.isAxiosError(err)) {
+        const message = (err.response?.data as { message?: string } | undefined)
+          ?.message;
+        setError(message ?? "Something went wrong");
       } else {
         setError("Something went wrong");
       }
@@ -74,7 +79,6 @@ const RegisterPage = () => {
             </p>
           </div>
           <form className="flex flex-col gap-4 mt-4" onSubmit={handleSubmit}>
-          
             <div className="flex flex-col gap-1">
               <Label className="text-[#1A1A21] text-[13.78px] font-medium">
                 Full Name
@@ -90,7 +94,6 @@ const RegisterPage = () => {
               />
             </div>
 
-     
             <div className="flex flex-col gap-1">
               <Label className="text-[#1A1A21] text-[13.78px] font-medium">
                 Email
@@ -123,7 +126,6 @@ const RegisterPage = () => {
               </select>
             </div>
 
-       
             <div className="flex flex-col gap-1">
               <Label className="text-[#1A1A21] text-[13.78px] font-medium">
                 Password
@@ -148,7 +150,6 @@ const RegisterPage = () => {
               </div>
             </div>
 
-       
             <div className="flex flex-col gap-1">
               <Label className="text-[#1A1A21] text-[13.78px] font-medium">
                 Confirm Password
@@ -164,9 +165,10 @@ const RegisterPage = () => {
               />
             </div>
 
-            {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+            {error && (
+              <p className="text-red-500 text-sm text-center">{error}</p>
+            )}
 
-       
             <button
               type="submit"
               disabled={loading}

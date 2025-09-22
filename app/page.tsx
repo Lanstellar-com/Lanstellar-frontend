@@ -4,6 +4,7 @@ import About from "./components/about";
 import Footer from "./components/footer";
 import HowItWorks from "./components/howItWorks";
 import Navbar from "./components/navbar";
+import Waitlist from "./components/waitlist";
 
 const Page = () => {
   return (
@@ -12,6 +13,7 @@ const Page = () => {
       <Hero />
       <About />
       <HowItWorks />
+      <Waitlist />
       <Footer />
     </div>
   );

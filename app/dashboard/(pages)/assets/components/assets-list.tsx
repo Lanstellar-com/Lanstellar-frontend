@@ -1,10 +1,10 @@
 "use client";
-
+import React, { useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import Image from "next/image";
-import React from "react";
 import { AssetDetailsModal } from "./assets-details";
+import api from "@/lib/api";
 
 const assets = [
   {
@@ -39,7 +39,19 @@ const assets = [
   },
 ];
 
+const fetchAssets = async () => {
+  try {
+    const res = await api.get("/assets/");
+    console.log("Assets:", res.data);
+  } catch (error) {
+    console.error("Error fetching assets:", error);
+  }
+};
+
 const AssetsList = () => {
+  useEffect(() => {
+    fetchAssets();
+  }, []);
   return (
     <div className="p-[26px] flex flex-wrap gap-6">
       {assets.map((asset) => (

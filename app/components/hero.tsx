@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 const Hero = () => {
   return (
@@ -72,6 +73,11 @@ const Hero = () => {
             Trusted by leading crypto companies
           </p>
         </div>
+        <Link href="#waitlist">
+          <div className="mt-6 text-center bg-gradient-to-br from-[#439EFF] from-40% to-[#5B1E9F]  cursor-pointer px-4 py-2 rounded-full bg-clip-text text-transparent text-[14px] sm:text-[16px] font-medium">
+            Join the Waitlist
+          </div>
+        </Link>
       </div>
 
       {/* Decorative images */}

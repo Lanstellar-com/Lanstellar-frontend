@@ -1,6 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import { Plus } from "lucide-react";
 import React from "react";
 import AddAssetsDialog from "./add-assets-dialog";
 import Image from "next/image";
@@ -19,16 +16,7 @@ const AssetHeader = () => {
           Sorted by <span className=" text-[#1A1A21]">Date added</span>
         </div>
         <div className="">
-          {" "}
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className=" cursor-pointer bg-gradient-to-r from-[#439EFF] to-[#5B1E9F] text-white px-4 py-2 rounded-[10px] flex items-center gap-2">
-                <Plus />
-                Add Asset
-              </Button>
-            </DialogTrigger>
-            <AddAssetsDialog />
-          </Dialog>
+          <AddAssetsDialog />
         </div>
       </div>
     </div>

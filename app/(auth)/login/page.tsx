@@ -4,16 +4,14 @@ import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import React, { useState } from "react";
 import api from "@/lib/api";
-import { useRouter } from "next/navigation";
 import { saveToken } from "@/lib/auth";
 
 const Page = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const router = useRouter();
+  const [loading] = useState(false);
+  const [error] = useState("");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,7 +90,9 @@ const Page = () => {
             <hr className=" border-t border-t-[#CBCBCB]/70" />
             <p className="text-center text-[#8C94A6] text-[13.78px] font-medium">
               Don&apos;t have an account?{" "}
-              <a href="/signup" className="text-[#439EFF]">Sign Up </a>
+              <a href="/signup" className="text-[#439EFF]">
+                Sign Up{" "}
+              </a>
             </p>
           </form>
         </div>

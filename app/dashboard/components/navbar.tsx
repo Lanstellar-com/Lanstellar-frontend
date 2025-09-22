@@ -11,6 +11,7 @@ import {
 import { ChevronDownIcon } from "lucide-react";
 import Link from "next/link";
 import { getCurrentUser, logout } from "@/lib/auth";
+import api from "@/lib/api";
 
 // ✅ Define the User type for type safety
 interface User {
@@ -37,6 +38,16 @@ const Navbar = () => {
     fetchUser();
   }, []);
 
+  const handleConnectWallet = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const res = await api.post("/privy/link");
+      console.log(res);
+    } catch (err) {
+      console.error("Login failed:", err);
+    }
+  };
+
   return (
     <div className="p-5 border-b border-b-[#E5E5E5] px-10 font-fredoka flex items-center justify-between">
       <div>
@@ -57,7 +68,7 @@ const Navbar = () => {
         </Link>
 
         <div className="flex flex-row gap-1 items-center">
-          {user?.walletAddress && (
+          {user?.walletAddress ? (
             <div className="bg-gradient-to-r from-[#468FF7] to-[#844CCB] p-[1px] flex justify-center items-center rounded-full">
               <div className="bg-white rounded-full h-[26px] w-[91px] flex justify-center items-center px-3 mx-auto">
                 <h2 className="text-transparent bg-gradient-to-r from-[#468FF7] to-[#844CCB] bg-clip-text text-[12.6px]">
@@ -65,6 +76,15 @@ const Navbar = () => {
                   {user.walletAddress.slice(-4)}
                 </h2>
               </div>
+            </div>
+          ) : (
+            <div className="">
+              <button
+                onClick={handleConnectWallet}
+                className="bg-gradient-to-r from-[#468FF7] to-[#844CCB] p-[1px] h-[28px] w-[100px] cursor-pointer text-white font-inter font-medium text-xs flex justify-center items-center rounded-full"
+              >
+                Connect Wallet
+              </button>
             </div>
           )}
 
