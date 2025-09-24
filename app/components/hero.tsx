@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Zap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -28,13 +29,16 @@ const Hero = () => {
         </p>
 
         {/* Buttons */}
-        <div className="mt-6 flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+        <div className="mt-6 flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4">
           <Button className="h-[48px] sm:h-[56px] w-full sm:w-[190px] font-inter text-[14px] sm:text-[16px] bg-gradient-to-t from-[#2E2E2E] to-[#4A4A4A] text-white px-6 py-3 rounded-full">
-            Request a Loan
+            Request a Demo
           </Button>
-          <Button className="bg-white h-[48px] sm:h-[56px] w-full sm:w-[190px] font-inter text-[14px] sm:text-[16px] text-black px-6 py-3 rounded-full">
-            Partner with Us
-          </Button>
+          <Link href="#waitlist">
+            <Button className="bg-white m-2 hover:bg-white/90 cursor-pointer text-black rounded-full px-2 font-inter md:h-[56px] h-[40px]  md:w-[190px] w-[150px] md:text-[16px] text-[14px] font-medium">
+              <Zap fill="#000000" />
+              Join the Waitlist
+            </Button>
+          </Link>
         </div>
 
         {/* Trusted by */}
@@ -73,11 +77,6 @@ const Hero = () => {
             Trusted by leading crypto companies
           </p>
         </div>
-        <Link href="#waitlist">
-          <div className="mt-6 text-center bg-gradient-to-br from-[#439EFF] from-40% to-[#5B1E9F]  cursor-pointer px-4 py-2 rounded-full bg-clip-text text-transparent text-[14px] sm:text-[16px] font-medium">
-            Join the Waitlist
-          </div>
-        </Link>
       </div>
 
       {/* Decorative images */}

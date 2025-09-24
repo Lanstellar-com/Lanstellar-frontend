@@ -30,9 +30,6 @@ const Navbar = () => {
             Launch App
           </Button>
         </Link>
-        <Button className="bg-gradient-to-br from-[#439EFF] to-[#5B1E9F] text-white hover:bg-white/90 cursor-pointer  md:px-6 px-2 font-inter md:w-[190px] w-[150px] md:text-[16px] text-[14px] rounded-full  md:h-[56px] h-[40px]  font-medium">
-          Request a Demo
-        </Button>
       </div>
     </div>
   );
