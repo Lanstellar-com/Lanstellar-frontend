@@ -22,7 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
-import { FileText, Plus } from "lucide-react";
+import { FileText, Plus, X, ImageIcon } from "lucide-react";
 import Image from "next/image";
 import api from "@/lib/api";
 import { toast } from "sonner";
@@ -37,7 +37,8 @@ interface AssetForm {
 }
 
 const AddAssetsDialog = () => {
-  const [file, setFile] = useState<File | null>(null);
+  const [media, setMedia] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState<AssetForm>({
@@ -52,20 +53,43 @@ const AddAssetsDialog = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDocsSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0] || null;
     if (selectedFile) {
+      // Validate file type
       if (
         !["image/png", "image/jpeg", "image/jpg"].includes(selectedFile.type)
       ) {
         toast.error("We only support PNGs and JPEGs");
         return;
       }
+
+      // Validate file size (10MB)
       if (selectedFile.size > 10 * 1024 * 1024) {
         toast.error("File size must be under 10MB");
         return;
       }
-      setFile(selectedFile);
+
+      setMedia(selectedFile);
+
+      // Create preview URL for images
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setPreviewUrl(e.target?.result as string);
+      };
+      reader.readAsDataURL(selectedFile);
+    }
+  };
+
+  const removeFile = () => {
+    setMedia(null);
+    setPreviewUrl(null);
+    // Reset the file input
+    const fileInput = document.getElementById(
+      "file-upload"
+    ) as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = "";
     }
   };
 
@@ -77,7 +101,15 @@ const AddAssetsDialog = () => {
       assetLocation: "",
       assetDescription: "",
     });
-    setFile(null);
+    setMedia(null);
+    setPreviewUrl(null);
+    // Reset the file input
+    const fileInput = document.getElementById(
+      "file-upload"
+    ) as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = "";
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -115,8 +147,8 @@ const AddAssetsDialog = () => {
       form.append("assetDescription", formData.assetDescription.trim());
 
       // Append file if selected
-      if (file) {
-        form.append("docs", file);
+      if (media) {
+        form.append("media", media);
       }
 
       const response = await api.post("/assets/create-asset", form, {
@@ -125,11 +157,11 @@ const AddAssetsDialog = () => {
         },
       });
 
-      // Check if response is successful
       if (response.data?.success) {
         toast.success(response.data?.message || "Asset created successfully!");
         resetForm();
         setOpen(false); // Close dialog
+        window.location.reload(); // Reload to show new asset
       } else {
         throw new Error(response.data?.message || "Failed to create asset");
       }
@@ -284,34 +316,57 @@ const AddAssetsDialog = () => {
               <Label className="text-sm font-medium text-[#1A1A21] mb-2 block">
                 Assets Documents
               </Label>
-              <Card className="border border-dashed border-[#F1F1F1] bg-white h-[86px] shadow-none flex flex-col justify-center items-center">
-                <CardContent className="p-4 flex flex-col justify-center items-center w-full">
-                  <input
-                    type="file"
-                    accept=".png,.jpg,.jpeg"
-                    onChange={handleFileSelect}
-                    className="hidden"
-                    id="file-upload"
-                  />
-                  <label
-                    htmlFor="file-upload"
-                    className="cursor-pointer w-full flex flex-col items-center justify-center text-center"
-                  >
-                    {file ? (
-                      <div className="flex items-center justify-center gap-2">
-                        <FileText className="w-5 h-5 text-purple-600" />
-                        <span className="text-sm text-gray-700 truncate max-w-[160px]">
-                          {file.name}
-                        </span>
+
+              {/* Show preview if file is selected */}
+              {media && previewUrl ? (
+                <Card className="border border-[#F1F1F1] bg-white shadow-none">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="relative w-16 h-16 rounded-lg overflow-hidden bg-gray-100">
+                          <img
+                            src={previewUrl}
+                            alt="Preview"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-gray-900 truncate max-w-[200px]">
+                            {media.name}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            {(media.size / 1024 / 1024).toFixed(2)} MB
+                          </p>
+                        </div>
                       </div>
-                    ) : (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={removeFile}
+                        className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                      >
+                        <X className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ) : (
+                <Card className="border border-dashed border-[#F1F1F1] bg-white h-[86px] shadow-none flex flex-col justify-center items-center">
+                  <CardContent className="p-4 flex flex-col justify-center items-center w-full">
+                    <input
+                      type="file"
+                      accept=".png,.jpg,.jpeg"
+                      onChange={handleDocsSelect}
+                      className="hidden"
+                      id="file-upload"
+                    />
+                    <label
+                      htmlFor="file-upload"
+                      className="cursor-pointer w-full flex flex-col items-center justify-center text-center"
+                    >
                       <div className="flex flex-col items-center justify-center gap-2">
-                        <Image
-                          src="/icons/document.svg"
-                          alt="Upload"
-                          width={28}
-                          height={28}
-                        />
+                        <ImageIcon className="w-7 h-7 text-gray-400" />
                         <p className="text-[13px] text-gray-600 leading-snug">
                           Drag your files here or{" "}
                           <span className="text-[#563BB5] font-medium">
@@ -319,11 +374,12 @@ const AddAssetsDialog = () => {
                           </span>
                         </p>
                       </div>
-                    )}
-                  </label>
-                </CardContent>
-              </Card>
-              <p className="text-[12px] font-medium text-[#8C94A6]">
+                    </label>
+                  </CardContent>
+                </Card>
+              )}
+
+              <p className="text-[12px] font-medium text-[#8C94A6] mt-1">
                 *We only support PNGs and JPEG under 10MB
               </p>
             </div>
