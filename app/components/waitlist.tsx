@@ -4,14 +4,22 @@ import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-
-const WAITLIST_ENDPOINT = process.env.NEXT_PUBLIC_WAITLIST_URL || "";
+import { getNames } from "country-list";
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select";
+import api from "@/lib/api";
 
 const Waitlist = () => {
-  const [name, setName] = useState("");
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [telegram, setTelegram] = useState("");
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [country, setCountry] = useState("");
+  const [telegramUsername, setTelegramUsername] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,26 +31,36 @@ const Waitlist = () => {
 
     setIsSubmitting(true);
     try {
-      if (WAITLIST_ENDPOINT) {
-        await fetch(WAITLIST_ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email }),
+      try {
+        const res = await api.post("/waitlist", {
+          fullName: fullName,
+          email: email,
+          country: country,
+          telegramUsername: telegramUsername,
         });
-      } else {
-        // Fallback: no endpoint configured; just log locally
-        console.info("Waitlist submission", { name, email });
+        console.log("Waitlist submission response:", res.data);
+      } catch (error) {
+        console.info("Waitlist submission", {
+          fullName,
+          email,
+          country,
+          telegramUsername,
+        });
       }
 
       toast.success("You're on the waitlist! We'll be in touch.");
-      setName("");
+      setFullName("");
       setEmail("");
+      setCountry("");
+      setTelegramUsername("");
     } catch {
       toast.error("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  const countries = getNames();
 
   return (
     <section id="waitlist" className="w-full bg-white font-inter">
@@ -60,13 +78,13 @@ const Waitlist = () => {
 
         <form
           onSubmit={handleSubmit}
-          className="mx-auto flex flex-col flex-wrap w-full max-w-xl gap-3 "
+          className="mx-auto flex flex-col flex-wrap w-full max-w-xl gap-3"
         >
-          <div className=" flex flex-row  w-full max-w-xl gap-3 ">
+          <div className="flex flex-row w-full max-w-xl gap-3">
             <Input
               placeholder="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
               className="bg-[#F5F5F5] border border-[#F1F1F1] focus:outline-none rounded-[10px] text-[#1A1A1A] placeholder:text-[#CBCBCB] shadow-none p-3 h-12 outline-none transition-colors"
             />
             <Input
@@ -81,13 +99,32 @@ const Waitlist = () => {
               }
             />
           </div>
-          <Input
-            type="text"
-            placeholder="Telegram ID"
-            value={telegram}
-            onChange={(e) => setTelegram(e.target.value)}
-            className="bg-[#F5F5F5] border border-[#F1F1F1] focus:outline-none rounded-[10px] text-[#1A1A1A] placeholder:text-[#CBCBCB] shadow-none p-3 h-12 outline-none transition-colors"
-          />
+          <div className="flex flex-row w-full max-w-xl gap-3">
+            <Select
+              value={country}
+              onValueChange={(value) => setCountry(value)}
+            >
+              <SelectTrigger className="bg-[#F5F5F5] border border-[#F1F1F1] rounded-[10px] text-[#1A1A1A] py-5.5 w-1/2 placeholder:text-[#CBCBCB]">
+                <SelectValue placeholder="Country" />
+              </SelectTrigger>
+
+              <SelectContent className="w-3/5">
+                {countries.map((c) => (
+                  <SelectItem key={c} value={c}>
+                    {c}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Input
+              type="text"
+              placeholder="Telegram Username"
+              value={telegramUsername}
+              onChange={(e) => setTelegramUsername(e.target.value)}
+              className="bg-[#F5F5F5] border border-[#F1F1F1] focus:outline-none rounded-[10px] w-1/2 text-[#1A1A1A] placeholder:text-[#CBCBCB] shadow-none p-3 h-12 outline-none transition-colors"
+            />
+          </div>
           <Button
             type="submit"
             disabled={isSubmitting}
