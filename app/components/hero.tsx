@@ -30,9 +30,15 @@ const Hero = () => {
 
         {/* Buttons */}
         <div className="mt-6 flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4">
-          <Button className="h-[48px] sm:h-[56px] w-full sm:w-[190px] font-inter text-[14px] sm:text-[16px] bg-gradient-to-t from-[#2E2E2E] to-[#4A4A4A] text-white px-6 py-3 rounded-full">
-            Request a Demo
-          </Button>
+          <a
+            href="https://calendly.com/femiadegolu/30min?month=2024-05"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button className="h-[48px] sm:h-[56px] w-full sm:w-[190px] font-inter text-[14px] sm:text-[16px] bg-gradient-to-t from-[#2E2E2E] to-[#4A4A4A] text-white px-6 py-3 rounded-full">
+              Request a Demo
+            </Button>
+          </a>
           <Link href="#waitlist">
             <Button className="bg-white m-2 hover:bg-white/90 cursor-pointer text-black rounded-full px-2 font-inter md:h-[56px] h-[40px]  md:w-[190px] w-[150px] md:text-[16px] text-[14px] font-medium">
               <Zap fill="#000000" />
