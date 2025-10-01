@@ -105,7 +105,10 @@ const Waitlist = () => {
               onValueChange={(value) => setCountry(value)}
             >
               <SelectTrigger className="bg-[#F5F5F5] border border-[#F1F1F1] rounded-[10px] text-[#1A1A1A] py-5.5 w-1/2 placeholder:text-[#CBCBCB]">
-                <SelectValue placeholder="Country" />
+                <SelectValue
+                  placeholder="Country"
+                  className="placeholder:text-[#CBCBCB]"
+                />
               </SelectTrigger>
 
               <SelectContent className="w-3/5">
